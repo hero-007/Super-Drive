@@ -1,6 +1,8 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
+import com.udacity.jwdnd.course1.cloudstorage.models.DriveFile;
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
+import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +15,11 @@ import java.util.List;
 @RequestMapping("/")
 public class Home {
     NotesService notesService;
+    FileService fileService;
 
-    public Home(NotesService notesService) {
+    public Home(NotesService notesService, FileService fileService) {
         this.notesService = notesService;
+        this.fileService = fileService;
     }
 
     @GetMapping
@@ -23,6 +27,8 @@ public class Home {
         model.addAttribute("newNote", new Note());
         List<Note> notesList = notesService.getAllNotes();
         model.addAttribute("notesList", notesList);
+        List<DriveFile> fileList = fileService.getAllFiles();
+        model.addAttribute("fileList", fileList);
         return "home";
     }
 }
