@@ -44,8 +44,8 @@ public class CredentialService {
         return null;
     }
 
-    public List<DisplayCredentials> getAllCredentials() {
-        List<Credentials> credentialsList = credentialMapper.getAllCredentials();
+    public List<DisplayCredentials> getAllCredentials(int userId) {
+        List<Credentials> credentialsList = credentialMapper.getAllCredentials(userId);
         List<DisplayCredentials> decryptedCredentialsList = new ArrayList<DisplayCredentials>();
         for(Credentials credential: credentialsList){
             String encryptedPassword  = credential.getPassword();
@@ -56,10 +56,11 @@ public class CredentialService {
     }
 
     public Integer deleteCredentials(int credentialId){
-        if(credentialId > 0){
+        try{
             return  credentialMapper.deleteCredentials(credentialId);
+        }catch(Exception e){
+            return null;
         }
-        return null;
     }
 
     public Integer updateCredentials(Credentials credentials){

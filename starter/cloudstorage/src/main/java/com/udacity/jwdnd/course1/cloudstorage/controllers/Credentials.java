@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class Credentials {
@@ -25,7 +26,7 @@ public class Credentials {
     }
 
     @PostMapping("/credential")
-    public String addNewCredentials(@ModelAttribute("newCredential") com.udacity.jwdnd.course1.cloudstorage.models.Credentials newCredentials, Authentication authentication, Model model){
+    public String addNewCredentials(@ModelAttribute("newCredential") com.udacity.jwdnd.course1.cloudstorage.models.Credentials newCredentials, RedirectAttributes redirectAttributes, Authentication authentication, Model model){
         if(newCredentials != null){
             String loggedInUser = authentication.getName();
             User user = userService.getUser(loggedInUser);
@@ -34,14 +35,17 @@ public class Credentials {
                 if(newCredentials.getCredentialId() != null){
                     // update the credentials
                     Integer updateCredentialCount = credentialService.updateCredentials(new com.udacity.jwdnd.course1.cloudstorage.models.Credentials(newCredentials.getCredentialId(), newCredentials.getUrl(), newCredentials.getUsername(), newCredentials.getKey(), newCredentials.getPassword(), user.getUserid()));
+                    redirectAttributes.addFlashAttribute("assetSuccessMessage", "Your credentials have been updated successfully!");
                 }else{
                     // create new credentials in the DB
                     Integer createdCredentialId = credentialService.createNewCredentials(new com.udacity.jwdnd.course1.cloudstorage.models.Credentials(null, newCredentials.getUrl(), newCredentials.getUsername(), null, newCredentials.getPassword(), user.getUserid()));
                     if(createdCredentialId != null){
                         // credential was successfully added to the DB
+                        redirectAttributes.addFlashAttribute("assetSuccessMessage", "Your credentials have been saved successfully!");
                         return "redirect:/";
                     }else{
                         // Error occurred while trying to add credential to the DB
+                        redirectAttributes.addFlashAttribute("assetErrorMessage", "Error occurred while trying to save the credentials.");
                         return "redirect:/";
                     }
                 }
@@ -51,16 +55,19 @@ public class Credentials {
     }
 
     @GetMapping("credential/delete")
-    public String deleteCredential(@RequestParam(name = "credentialId") String credentialId){
+    public String deleteCredential(@RequestParam(name = "credentialId") String credentialId, RedirectAttributes redirectAttributes){
         if(credentialId != null){
             int credentialToDelete = Integer.parseInt(credentialId);
             Integer deletedCredential = credentialService.deleteCredentials(credentialToDelete);
-            if(deletedCredential > 1){
+            if(deletedCredential != null){
+                redirectAttributes.addFlashAttribute("assetSuccessMessage", "Your credentials have been deleted successfully!");
                 return "redirect:/";
             }else{
+                redirectAttributes.addFlashAttribute("assetErrorMessage", "Error occurred while trying to delete the credentials.");
                 return "redirect:/";
             }
         }
+        redirectAttributes.addFlashAttribute("assetErrorMessage", "Error occurred while trying to delete the credentials.");
         return "redirect:/";
     }
 }

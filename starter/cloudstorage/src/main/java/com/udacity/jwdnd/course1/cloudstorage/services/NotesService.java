@@ -29,8 +29,8 @@ public class NotesService {
         return null;
     }
 
-    public List<Note> getAllNotes(){
-        return noteMapper.getAllNotes();
+    public List<Note> getAllNotes(int userId){
+        return noteMapper.getAllNotes(userId);
     }
 
     public Integer deleteNote(int noteId){

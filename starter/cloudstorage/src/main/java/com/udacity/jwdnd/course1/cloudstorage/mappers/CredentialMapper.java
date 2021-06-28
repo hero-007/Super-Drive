@@ -15,8 +15,8 @@ public interface CredentialMapper {
     @Options(useGeneratedKeys = true, keyProperty = "credentialId")
     int insert(Credentials credentials);
 
-    @Select("SELECT * FROM CREDENTIALS")
-    List<Credentials> getAllCredentials();
+    @Select("SELECT * FROM CREDENTIALS WHERE userid = #{userId}")
+    List<Credentials> getAllCredentials(int userId);
 
     @Delete("DELETE FROM CREDENTIALS WHERE credentialid = #{credentialId}")
     Integer deleteCredentials(int credentialId);

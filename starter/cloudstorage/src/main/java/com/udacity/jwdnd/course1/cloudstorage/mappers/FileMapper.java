@@ -12,8 +12,8 @@ public interface FileMapper {
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     int uploadFile(DriveFile file);
 
-    @Select("SELECT * FROM FILES")
-    List<DriveFile> getAllFiles();
+    @Select("SELECT * FROM FILES WHERE userid = #{userId}")
+    List<DriveFile> getAllFiles(int userId);
 
     @Delete("DELETE FROM FILES WHERE fileId = #{fileId}")
     Integer deleteFile(int fileId);

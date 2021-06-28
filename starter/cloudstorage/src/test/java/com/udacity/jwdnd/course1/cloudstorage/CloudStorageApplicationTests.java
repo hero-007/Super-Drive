@@ -18,7 +18,6 @@ import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CloudStorageApplicationTests {
 
 	@LocalServerPort
@@ -44,14 +43,12 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
-	@Order(1)
 	public void getLoginPage() {
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
 	}
 
 	@Test
-	@Order(2)
 	public void unauthorizedUserCannotAccessHomePage() {
 		driver.get("http://localhost:" + this.port + "/login");
 		Assertions.assertEquals("Login", driver.getTitle());
@@ -62,7 +59,6 @@ class CloudStorageApplicationTests {
 	}
 
 	@Test
-	@Order(3)
 	public void simpleUserSignUpLoginLogoutFlow() {
 		driver.get("http://localhost:" + this.port + "/signup");
 		SignUpPage signUpPage = new SignUpPage(driver);

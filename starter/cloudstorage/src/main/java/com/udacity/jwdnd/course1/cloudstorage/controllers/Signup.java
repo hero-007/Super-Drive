@@ -29,15 +29,15 @@ public class Signup {
     }
 
     @PostMapping
-    public String registerNewUser(@ModelAttribute("newUser") User user, Model model){
+    public String registerNewUser(@ModelAttribute("newUser") User user, final RedirectAttributes redirectAttributes, Model model){
         Boolean successMessage = false;
         Boolean errorMessage = false;
         if(user != null){
             Integer userId = userService.createNewUser(user);
             if(userId != null && userId != -1){
                 successMessage = true;
-                model.addAttribute("successMessage", successMessage);
-                model.addAttribute("errorMessage", errorMessage);
+                redirectAttributes.addFlashAttribute("successMessage", successMessage);
+                redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
                 return "redirect:login";
             }
         }

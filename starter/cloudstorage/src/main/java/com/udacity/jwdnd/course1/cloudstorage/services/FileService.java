@@ -22,14 +22,15 @@ public class FileService {
     }
 
     public Integer deleteFile(Integer fileId){
-        if(fileId != null){
+        try {
             return fileMapper.deleteFile(fileId);
+        }catch (Exception e){
+            return null;
         }
-        return null;
     }
 
-    public List<DriveFile> getAllFiles(){
-        return fileMapper.getAllFiles();
+    public List<DriveFile> getAllFiles(int userId){
+        return fileMapper.getAllFiles(userId);
     }
 
     public DriveFile getFile(Integer fileId){
