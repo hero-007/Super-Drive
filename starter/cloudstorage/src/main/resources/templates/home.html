@@ -25,7 +25,7 @@
                 </nav>
                 <!-- Alert messages for the user - Start-->
                 <div class="alert alert-success my-2"  th:if ="${assetSuccessMessage}" th:text="${assetSuccessMessage}">Created Successfully!</div>
-                <div class="alert alert-success my-2"  th:if ="${assetErrorMessage}" th:text="${assetErrorMessage}">Error Occurred.</div>
+                <div class="alert alert-danger my-2"  th:if ="${assetErrorMessage}" th:text="${assetErrorMessage}">Error Occurred.</div>
                 <!--  Alert messages for the user - END -->
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-files" role="tabpanel" aria-labelledby="nav-files-tab">
@@ -36,7 +36,7 @@
                                         <label for="fileUpload">Upload a New File:</label>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
+                                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" required>
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="submit" class="btn btn-dark">Upload</button>
